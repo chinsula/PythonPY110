@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from store.models import DATABASE
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 
 
 def products_view(request):
@@ -9,10 +9,8 @@ def products_view(request):
         if id_product in DATABASE:
             return JsonResponse(DATABASE[id_product], json_dumps_params={'ensure_ascii': False,
                                                      'indent': 4})
-        if not id_product in DATABASE:
-            return JsonResponse(DATABASE[id_product], json_dumps_params={'ensure_ascii': False,
-                                                     'indent': 4})
-
+        if id_product not in DATABASE:
+            return HttpResponseNotFound("Данного продукта нет в базе данных")
         return JsonResponse(DATABASE, json_dumps_params={'ensure_ascii': False,
                                                      'indent': 4})# Вернуть JsonResponse с объектом DATABASE и параметрами отступов и кодировок,
 def shop_view(request):

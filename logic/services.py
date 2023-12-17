@@ -1,3 +1,5 @@
+from store.models import DATABASE
+
 def filtering_category(database: dict,
                        category_key: [int, str],
                        ordering_key: [None, str] = None,
@@ -15,11 +17,11 @@ def filtering_category(database: dict,
     то возвращается пустой список
     """
     if category_key is not None:
-        result = [database.get('category') for database['category'] in database]
+        result = [database[product] for product in database if database[product]['category'] == category_key]
     else:
-        result = [[key, value] for key, value in database.items()]  # TODO Трансформируйте database в список словарей
+        result = [value for value in database.values()]  # TODO Трансформируйте database в список словарей
     if ordering_key is not None:
-        result = sorted(database.items(), key=lambda x: x[ordering_key], reverse=reverse)  # TODO Проведите сортировку result по ordering_key и параметру reverse
+        result = sorted(result, key=lambda x: x[ordering_key], reverse=reverse)  # TODO Проведите сортировку result по ordering_key и параметру reverse
     return result
 
 
@@ -43,4 +45,4 @@ if __name__ == "__main__":
          'html': 'apple'}
     ]
 
-    print(filtering_category(DATABASE, 'Фрукты', 'price_after', True) == test)  # True
+    print(filtering_category(DATABASE, 'Овощи', 'rating', True) == test)  # True

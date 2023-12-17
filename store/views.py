@@ -1,19 +1,26 @@
 from django.http import JsonResponse
 from store.models import DATABASE
 from django.http import HttpResponse, HttpResponseNotFound
+from logic.services import filtering_category
 
 
 def products_view(request):
     if request.method == "GET":
         id_product = request.GET.get('id')
         if not id_product:
-            return JsonResponse(DATABASE, json_dumps_params={'ensure_ascii': False,
-                                                     'indent': 4})# Вернуть JsonResponse с объектом DATABASE и параметрами отступов и кодировок,
+            category_key = request.GET.get("category")
+            ordering_key = request.GET.get("ordering")
+            reverse = request.GET.get("reverse") in ('true', 'True')
+            data = filtering_category(DATABASE, category_key, ordering_key, reverse)
+            return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+
+
         if id_product in DATABASE:
             return JsonResponse(DATABASE[id_product], json_dumps_params={'ensure_ascii': False,
                                                      'indent': 4})
         if id_product not in DATABASE:
             return HttpResponseNotFound("Данного продукта нет в базе данных")
+
 
 def shop_view(request):
     if request.method == "GET":

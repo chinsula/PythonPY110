@@ -20,3 +20,23 @@ def shop_view(request):
         with open('store/shop.html', encoding="utf-8") as f:
             data = f.read()
         return HttpResponse(data)
+
+
+def products_page_view(request, page):
+    if request.method == "GET":
+        if isinstance(page, str):
+            for data in DATABASE.values():
+                if data['html'] == page:  # Если значение переданного параметра совпадает именем html файла
+                    with open(f'store/products/{page}.html', encoding="utf-8") as f:
+                        data = f.read()
+                    return HttpResponse(data)
+        elif isinstance(page, int):
+            data = DATABASE.get(str(page))  # Получаем какой странице соответствует данный id
+            if data:  # Если по данному page было найдено значение
+                with open(f'store/products/{data["html"]}.html', encoding="utf-8") as f:
+                    data = f.read()
+                return HttpResponse(data)
+
+        # Если за всё время поиска не было совпадений, то значит по данному имени нет соответствующей
+        # страницы товара и можно вернуть ответ с ошибкой HttpResponse(status=404)
+        return HttpResponse(status=404)

@@ -61,7 +61,7 @@ def cart_view(request):
 
 def cart_add_view(request, id_product):
     if request.method == "GET":
-        result = add_to_cart(id_product) # TODO Вызвать ответственную за это действие функцию
+        result = add_to_cart(id_product)
         if result:
             return JsonResponse({"answer": "Продукт успешно добавлен в корзину"},
                                 json_dumps_params={'ensure_ascii': False})

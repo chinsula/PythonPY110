@@ -3,7 +3,7 @@ from store.models import DATABASE
 from django.http import HttpResponse, HttpResponseNotFound
 from logic.services import filtering_category
 from logic.services import view_in_cart, add_to_cart, remove_from_cart
-
+from django.shortcuts import render
 
 
 def products_view(request):
@@ -26,9 +26,7 @@ def products_view(request):
 
 def shop_view(request):
     if request.method == "GET":
-        with open('store/shop.html', encoding="utf-8") as f:
-            data = f.read()
-        return HttpResponse(data)
+        return render(request, 'store/shop.html', context={"products":DATABASE.values()})
 
 
 def products_page_view(request, page):
@@ -55,9 +53,18 @@ def products_page_view(request, page):
 def cart_view(request):
     if request.method == "GET":
         data = view_in_cart()
-        return JsonResponse(data, json_dumps_params={'ensure_ascii': False,
-                                                     'indent': 4})
+        if request.GET.get('format') == 'JSON':
+            return JsonResponse(data, json_dumps_params={'ensure_ascii': False,
+                                                         products = []  # Список продуктов
+        for product_id, quantity in data['products'].items():
+            product = DATABASE[product_id]  # 1. Получите информацию о продукте из DATABASE по его product_id. product будет словарём
+        # 2. в словарь product под ключом "quantity" запишите текущее значение товара в корзине
+        product["quantity"] = quantity
+            "price_total"] = f"{quantity * product['price_after']:.2f}"  # добавление общей цены позиции с ограничением в 2 знака 
+        # 3. добавьте product в список products
 
+                                 'indent': 4})
+        return render(request, "store/cart.html")
 
 def cart_add_view(request, id_product):
     if request.method == "GET":

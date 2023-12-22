@@ -41,8 +41,19 @@
 								<a href="#" class="mr-2" style="color: #000;">{{product.sold_value}} <span style="color: #bbb;">Продано</span></a>
 							</p>
 						</div>
+<!--    				<p class="price"><span><del>&#x20bd {{product.price_before}}</del> &#x20bd {{product.price_after}}</span></p>-->
+
+					{% if product.price_before == product.price_after %}
+    				<p class="price"><span></del> &#x20bd {{product.price_after}}</span></p>
+
+                    {% else %}
     				<p class="price"><span><del>&#x20bd {{product.price_before}}</del> &#x20bd {{product.price_after}}</span></p>
-    				<p>{{product.description}}
+                    {% endif %}
+
+
+
+
+					<p>{{product.description}}
 						</p>
 						<div class="row mt-4">
 							<div class="col-md-6">

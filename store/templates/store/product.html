@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %} <!-- Блок для названия страницы-->
-<title>Bell Pepper</title>
+<title>{{product.name}}</title>
 {% endblock %}
   
 {% block content %} <!-- Блок для уникального содержимого страницы-->
@@ -93,5 +93,54 @@
     		</div>
     	</div>
     </section>
+
+<section class="ftco-section">
+    	<div class="container">
+				<div class="row justify-content-center mb-3 pb-3">
+          <div class="col-md-12 heading-section text-center ftco-animate">
+          	<span class="subheading">Продукты</span>
+            <h2 class="mb-4">Товары той же категории</h2>
+          </div>
+        </div>
+    	</div>
+    	<div class="container">
+    		<div class="row">
+        		{% for product in category %}
+    			<div class="col-md-6 col-lg-3 ftco-animate">
+    				<div class="product">
+    					<a href="green_beans.html" class="img-prod"><img class="img-fluid" src="../static/images/product-3.jpg" alt="Colorlib Template">
+	    					<div class="overlay"></div>
+	    				</a>
+    					<div class="text py-3 pb-4 px-3 text-center">
+    						<h3><a href="green_beans.html">Стручковая фасоль</a></h3>
+    						<div class="d-flex">
+    							<div class="pricing">
+		    						<p class="price">
+										<span>&#x20bd 250.00</span>
+									</p>
+		    					</div>
+	    					</div>
+    						<div class="bottom-area d-flex px-3">
+	    						<div class="m-auto d-flex">
+	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center" data-product-id="3">
+	    								<span><i class="ion-ios-add-circle-outline" data-product-id="3"></i></span>
+	    							</a>
+	    							<a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
+	    								<span><i class="ion-ios-cart"></i></span>
+	    							</a>
+	    							<a href="#" class="heart d-flex justify-content-center align-items-center ">
+	    								<span><i class="ion-ios-heart-empty" data-product-id="3" data-state="inactive" data-action="toggle"></i></span>
+	    							</a>
+    							</div>
+								<div class="custom-popup-message" data-product-id="3"></div>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+				{% endfor %}
+    		</div>
+    	</div>
+    </section>
+
 {% endblock %}
  

@@ -45,13 +45,16 @@ def shop_view(request):
 
 def products_page_view(request, page):
     if request.method == "GET":
-
-        category_key = filtering_category(DATABASE, "Овощи")
         if isinstance(page, str):
             for data in DATABASE.values():
                 if data['html'] == page:
+                    product_category = [
+                        product for product in DATABASE.values()
+                        if data['category'] == product['category']
+                           and product['html'] != page
+                    ][:4]
                     return render(request, "store/product.html",
-                                  context={"product": data, "product_category": category_key})
+                                  context={"product": data, "product_category": product_category})
 
         elif isinstance(page, int):
             # Обрабатываем условие того, что пытаемся получить страницу товара по его id

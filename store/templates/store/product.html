@@ -105,18 +105,18 @@
     	</div>
     	<div class="container">
     		<div class="row">
-        		{% for product in category %}
+        		{% for product in product_category %}
     			<div class="col-md-6 col-lg-3 ftco-animate">
     				<div class="product">
-    					<a href="green_beans.html" class="img-prod"><img class="img-fluid" src="../static/images/product-3.jpg" alt="Colorlib Template">
+    					<a href={% static product.url %} class="img-prod"><img class="img-fluid" src={% static product.url %} alt="Colorlib Template">
 	    					<div class="overlay"></div>
 	    				</a>
     					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="green_beans.html">Стручковая фасоль</a></h3>
+    						<h3><a href={% static product.url %}>{{product.name}}</a></h3>
     						<div class="d-flex">
     							<div class="pricing">
 		    						<p class="price">
-										<span>&#x20bd 250.00</span>
+										<span>&#x20bd {{product.price_after}}</span>
 									</p>
 		    					</div>
 	    					</div>

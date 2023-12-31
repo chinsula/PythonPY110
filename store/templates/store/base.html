@@ -76,7 +76,7 @@
                     <li class="nav-item"><a href="{% url 'store:shop_view'%}" class="nav-link">Магазин</a>
                     <li class="nav-item"><a href="wishlist.html" class="nav-link">Избранное</a>
                     <li class="nav-item"><a href="{% url 'store:cart_view'%}" class="nav-link">Корзина</a>
-                    {% if user.username %}
+                    {% if user.is_authenticated %}
                     <li class="nav-item"><a href="{% url 'login:logout_view'%}" class="nav-link">Выйти из аккаунта</a>
                     <li class="nav-item"><a class="nav-link">Привет {{user.username}}!</a>
                     {% else %}
@@ -225,7 +225,70 @@
     {% endblock %}
 
     {% block custom_scripts %}  <!-- Блок для загрузки дополнительного кода встроенного в html-->
+    <script>
+        // Функция для показа всплывающего сообщения
 
+            function showPopupMessage(productID, message) {
+        let popupMessage = document.querySelector(`.custom-popup-message[data-product-id="${productID}"]`);
+        popupMessage.textContent = message;
+        popupMessage.style.display = 'block';
+        setTimeout(function() {
+            popupMessage.style.opacity = 1;
+        }, 10);
+        setTimeout(function() {
+            popupMessage.style.opacity = 0;
+            setTimeout(function() {
+                popupMessage.style.display = 'none';
+            }, 250); // Исчезнет через 0.25 секунды
+        }, 750); // Показывается в течение 0.75 секунд
+    }
+    </script>
+
+    <script>
+        // Добавление продукта в корзину
+        function addToCart(event) {
+            // Получаем значение купона, которое вы хотите проверить
+            event.preventDefault();
+            let linkCart = event.target; // Получаем элемент ссылки, на которой был клик
+            // console.log(linkCart)
+        let productId = linkCart.getAttribute('data-product-id'); // Получаем ID товара
+            console.log(productId)
+            linkCart.disabled = true;
+
+            // Отправляем асинхронный GET-запрос на сервер для проверки купона
+            fetch('/cart/add/' + productId, {
+                method: 'GET'
+            })
+            .then(function(response) {
+                // Проверяем статус ответа
+                if (!response.ok) {
+                    throw new Error('Ошибка при при добавлении в корзину');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                // Обрабатываем данные, которые пришли с сервера
+
+                if (data.answer = 'Продукт успешно добавлен в корзину') {
+                    showPopupMessage(productId, 'Продукт успешно добавлен в корзину');
+                }
+            })
+            .catch(function(error) {
+                // Обрабатываем ошибку
+                console.error(error);
+            })
+            .finally(function() {
+                // Включаем ссылку обратно после получения ответа (успешного или с ошибкой)
+                linkCart.disabled = false;
+            });
+
+        };
+        let addButtons = document.querySelectorAll('.add-to-cart');
+        addButtons.forEach(function(button) {
+            button.addEventListener('click', addToCart);
+        });
+
+    </script>
     {% endblock %}
 </body>
 </html>

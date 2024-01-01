@@ -26,7 +26,7 @@ def wishlist_add_json(request, id_product: str):
     """
     if request.method == "GET":
         result = add_to_wishlist(request,
-                                 id_product)  # TODO вызовите обработчик из services.py добавляющий продукт в избранное
+                                 id_product)
         if result:
             return JsonResponse({"answer": "Продукт успешно добавлен в избранное"},
                                 json_dumps_params={'ensure_ascii': False})

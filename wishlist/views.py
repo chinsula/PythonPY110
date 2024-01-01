@@ -25,8 +25,7 @@ def wishlist_add_json(request, id_product: str):
     Добавление продукта в избранное и возвращение информации об успехе или неудаче в JSON
     """
     if request.method == "GET":
-        result = add_to_wishlist(request,
-                                 id_product)
+        result = add_to_wishlist(request,id_product)
         if result:
             return JsonResponse({"answer": "Продукт успешно добавлен в избранное"},
                                 json_dumps_params={'ensure_ascii': False})

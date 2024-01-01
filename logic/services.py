@@ -163,7 +163,7 @@ def remove_from_wishlist(request, id_product: str) -> bool:
 
     wishlist_users = view_in_wishlist(request)
     wishlist = wishlist_users[get_user(request).username]  # стало
-    if id_product not in wishlist:
+    if id_product not in wishlist['products']:
         return False
     wishlist['products'].remove(id_product)
 

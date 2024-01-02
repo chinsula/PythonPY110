@@ -188,6 +188,10 @@ def add_user_to_wishlist(request, username: str) -> None:
         with open('wishlist.json', mode='w', encoding='utf-8') as f:
             wishlist_users[username] = {'products': {}}
             json.dump(wishlist_users, f)
+
+
+
+
 if __name__ == "__main__":
     # Проверка работоспособности функций view_in_cart, add_to_cart, remove_from_cart
     # Для совпадения выходных значений перед запуском скрипта удаляйте появляющийся файл 'cart.json' в папке

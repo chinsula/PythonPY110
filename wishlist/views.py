@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.http import JsonResponse, HttpResponseNotFound
+from django.shortcuts import render, redirect
 
 from logic.services import view_in_wishlist, add_to_wishlist, remove_from_wishlist
 from store.models import DATABASE
@@ -62,6 +62,15 @@ def wishlist_json(request):
         return JsonResponse({"answer": "Пользователь не авторизован"},
                             status=404,
                             json_dumps_params={'ensure_ascii': False})
+
+def wishlist_remove_view(request, id_product):
+    if request.method == "GET":
+        result = remove_from_wishlist(request, id_product)
+        if result:
+            return redirect("wishlist:wishlist_view")
+
+        return HttpResponseNotFound("Неудачное удаление из корзины")
+
 
 
 if __name__ == "__main__":

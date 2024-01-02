@@ -63,6 +63,7 @@ def wishlist_json(request):
                             status=404,
                             json_dumps_params={'ensure_ascii': False})
 
+
 def wishlist_remove_view(request, id_product):
     if request.method == "GET":
         result = remove_from_wishlist(request, id_product)
@@ -70,7 +71,6 @@ def wishlist_remove_view(request, id_product):
             return redirect("wishlist:wishlist_view")
 
         return HttpResponseNotFound("Неудачное удаление из корзины")
-
 
 
 if __name__ == "__main__":

@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user
 from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
-
+from django.contrib.auth.decorators import login_required
 from logic.services import view_in_wishlist, add_to_wishlist, remove_from_wishlist
 from store.models import DATABASE
 
 
+@login_required(login_url='login:login_view')
 def wishlist_view(request):
     if request.method == "GET":
         current_user = get_user(request).username

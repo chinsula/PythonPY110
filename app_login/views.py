@@ -1,7 +1,9 @@
 from django.contrib.auth import login, authenticate
-from django.shortcuts import render, redirect
 from django.contrib.auth import logout
+from django.shortcuts import render, redirect
+
 from logic.services import add_user_to_cart, add_user_to_wishlist
+
 
 def login_view(request):
     if request.method == "GET":
